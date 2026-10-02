@@ -592,44 +592,48 @@
     }
 
     /* ============================================
-       PHOTO SLIDESHOW (Ken Burns)
+       PHOTO SLIDESHOW (Compact Video Reel)
        ============================================ */
     .slideshow-section {
-      min-height: 100vh;
+      min-height: auto;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #0d1a3a 0%, #080c24 100%);
       position: relative;
-      background: #080c24;
       overflow: hidden;
     }
 
     .slideshow-section .section-title {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(30px);
-      z-index: 20;
-      width: 90%;
-    }
-
-    .slideshow-section .section-title.visible {
-      transform: translateX(-50%) translateY(0);
+      position: static;
+      transform: none;
+      margin-bottom: 24px;
+      width: 100%;
+      text-align: center;
     }
 
     .slideshow-viewport {
       position: relative;
       width: 100%;
-      height: 100vh;
+      max-width: 360px;
+      height: 520px;
+      max-height: 70vh;
+      margin: 0 auto;
+      border-radius: 26px;
       overflow: hidden;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8), 0 0 35px rgba(212, 163, 75, 0.35);
+      border: 2px solid rgba(212, 163, 75, 0.4);
+      background: #000;
     }
 
     .slide {
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: opacity 1.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at center, #0f1838 0%, #080c24 100%);
+      transition: opacity 1s ease;
+      overflow: hidden;
     }
 
     .slide.active {
@@ -639,50 +643,52 @@
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      animation: kenBurns 8s ease-in-out infinite alternate;
-      filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.8));
+      object-fit: cover;
+      object-position: center;
+      animation: kenBurnsA 7s ease-in-out infinite alternate;
     }
 
     /* Each slide gets a slightly different Ken Burns direction */
-    .slide:nth-child(odd) img  { animation-name: kenBurnsA; }
-    .slide:nth-child(even) img { animation-name: kenBurnsB; }
+    .slide:nth-child(even) img {
+      animation-name: kenBurnsB;
+    }
 
     @keyframes kenBurnsA {
       0%   { transform: scale(1) translate(0, 0); }
-      100% { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1.14) translate(-2%, -1%); }
     }
 
     @keyframes kenBurnsB {
-      0%   { transform: scale(1.06) translate(-1%, 1%); }
+      0%   { transform: scale(1.1) translate(-1%, 1%); }
       100% { transform: scale(1) translate(1%, -1%); }
     }
 
-    /* Dark vignette overlay */
+    /* Dark vignette overlay for video text */
     .slide::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle, transparent 65%, rgba(8, 12, 36, 0.6) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 45%, rgba(8, 12, 36, 0.9) 100%);
       pointer-events: none;
     }
 
-    /* Slide caption */
+    /* Slide caption inside video reel */
     .slide-caption {
       position: absolute;
-      bottom: 100px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
       font-family: 'Great Vibes', cursive;
-      font-size: clamp(1.5rem, 5vw, 3rem);
+      font-size: clamp(1.4rem, 4.5vw, 2rem);
       color: #fff;
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 0 20px rgba(212, 163, 75, 0.7);
       text-align: center;
+      width: 90%;
       opacity: 0;
-      transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
-      transform: translateX(-50%) translateY(20px);
-      white-space: nowrap;
+      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+      transform: translateX(-50%) translateY(14px);
+      white-space: normal;
     }
 
     .slide.active .slide-caption {
@@ -998,48 +1004,18 @@
         padding: 16px 36px;
       }
 
-      /* Mobile phone slideshow fit */
-      .slideshow-section {
-        min-height: auto;
-        padding: 50px 0 35px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .slideshow-section .section-title {
-        position: static;
-        transform: none;
-        margin-bottom: 16px;
-        width: 100%;
-      }
-
+      /* Compact video reel on phone */
       .slideshow-viewport {
-        height: 72vh;
-        max-height: 520px;
-        width: 94%;
-        margin: 0 auto;
-        border-radius: 20px;
-        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 35px rgba(212, 163, 75, 0.25);
-        border: 1px solid rgba(212, 163, 75, 0.3);
-      }
-
-      .slide img {
-        object-fit: contain;
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 320px;
+        height: 480px;
+        max-height: 65vh;
+        border-radius: 22px;
       }
 
       .slide-caption {
-        bottom: 14px;
-        font-size: clamp(1.1rem, 4.5vw, 1.6rem);
-        white-space: normal;
+        bottom: 18px;
+        font-size: 1.45rem;
         width: 88%;
-        padding: 8px 16px;
-        background: rgba(8, 12, 36, 0.75);
-        backdrop-filter: blur(10px);
-        border-radius: 30px;
-        border: 1px solid rgba(212, 163, 75, 0.25);
       }
     }
 
